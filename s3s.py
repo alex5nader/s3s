@@ -7,6 +7,9 @@
 import argparse, datetime, json, os, shutil, re, requests, sys, time, uuid
 import msgpack
 import iksm, utils
+from appdirs import user_data_dir
+from PIL import Image, ImageDraw
+from packaging import version
 
 A_VERSION = "0.1.5"
 
@@ -17,11 +20,9 @@ if sys.version_info[1] >= 7: # only works on python 3.7+
 	sys.stdout.reconfigure(encoding='utf-8') # note: please stop using git bash
 
 # CONFIG.TXT CREATION
-if getattr(sys, 'frozen', False): # place config.txt in same directory as script (bundled or not)
-	app_path = os.path.dirname(sys.executable)
-elif __file__:
-	app_path = os.path.dirname(__file__)
-config_path = os.path.join(app_path, "config.txt")
+config_dir = user_data_dir("s3s", "s3s")
+os.makedirs(config_dir, exist_ok=True)
+config_path = os.path.join(config_dir, "config.txt")
 
 try:
 	config_file = open(config_path, "r")
