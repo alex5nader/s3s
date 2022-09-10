@@ -25,19 +25,18 @@ os.makedirs(config_dir, exist_ok=True)
 config_path = os.path.join(config_dir, "config.txt")
 
 try:
-	config_file = open(config_path, "r")
-	CONFIG_DATA = json.load(config_file)
-	config_file.close()
+	with open(config_path, "r") as config_file:
+		CONFIG_DATA = json.load(config_file)
 except (IOError, ValueError):
 	print("Generating new config file.")
 	CONFIG_DATA = {"api_key": "", "acc_loc": "", "gtoken": "", "bullettoken": "", "session_token": "", "f_gen": "https://api.imink.app/f"}
-	config_file = open(config_path, "w")
-	config_file.seek(0)
-	config_file.write(json.dumps(CONFIG_DATA, indent=4, sort_keys=False, separators=(',', ': ')))
-	config_file.close()
-	config_file = open(config_path, "r")
-	CONFIG_DATA = json.load(config_file)
-	config_file.close()
+
+	with open(config_path, "w") as config_file:
+		config_file.seek(0)
+		config_file.write(json.dumps(CONFIG_DATA, indent=4, sort_keys=True, separators=(',', ': ')))
+
+	with open(config_path, "r") as config_file:
+		CONFIG_DATA = json.load(config_file)
 
 # SET GLOBALS
 API_KEY       = CONFIG_DATA["api_key"]       # for stat.ink
@@ -59,28 +58,25 @@ else:
 def write_config(tokens):
 	'''Writes config file and updates the global variables.'''
 
-	config_file = open(config_path, "w")
-	config_file.seek(0)
-	config_file.write(json.dumps(tokens, indent=4, sort_keys=False, separators=(',', ': ')))
-	config_file.close()
+	with open(config_path, "w") as config_file:
+		config_file.seek(0)
+		config_file.write(json.dumps(tokens, indent=4, sort_keys=True, separators=(',', ': ')))
 
-	config_file = open(config_path, "r")
-	CONFIG_DATA = json.load(config_file)
+	with open(config_path, "r") as config_file:
+		CONFIG_DATA = json.load(config_file)
 
-	global API_KEY
-	API_KEY = CONFIG_DATA["api_key"]
-	global USER_LANG
-	USER_LANG = CONFIG_DATA["acc_loc"][:5]
-	global USER_COUNTRY
-	USER_COUNTRY = CONFIG_DATA["acc_loc"][-2:]
-	global GTOKEN
-	GTOKEN = CONFIG_DATA["gtoken"]
-	global BULLETTOKEN
-	BULLETTOKEN = CONFIG_DATA["bullettoken"]
-	global SESSION_TOKEN
-	SESSION_TOKEN = CONFIG_DATA["session_token"]
-
-	config_file.close()
+		global API_KEY
+		API_KEY = CONFIG_DATA["api_key"]
+		global USER_LANG
+		USER_LANG = CONFIG_DATA["acc_loc"][:5]
+		global USER_COUNTRY
+		USER_COUNTRY = CONFIG_DATA["acc_loc"][-2:]
+		global GTOKEN
+		GTOKEN = CONFIG_DATA["gtoken"]
+		global BULLETTOKEN
+		BULLETTOKEN = CONFIG_DATA["bullettoken"]
+		global SESSION_TOKEN
+		SESSION_TOKEN = CONFIG_DATA["session_token"]
 
 
 def headbutt():
