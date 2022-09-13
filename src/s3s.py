@@ -1048,6 +1048,8 @@ def main():
 		help="upload local results. use `-i results.json overview.json`")
 	parser.add_argument("-t", required=False, action="store_true",
 		help="dry run for testing (won't post to stat.ink)")
+	parser.add_argument("--get-cookie", required=False, action="store_true", help=argparse.SUPPRESS)
+
 	parser_result = parser.parse_args()
 
 	# regular args
@@ -1062,6 +1064,7 @@ def main():
 	test_run  = parser_result.t
 	filenames = parser_result.file # intended for results.json AND overview.json
 	outfile   = parser_result.o # output to local files
+	get_cookie = parser_result.get_cookie
 
 	# i/o checks
 	############
@@ -1071,6 +1074,9 @@ def main():
 
 	elif outfile and len(sys.argv) > 2:
 		print("Cannot use -o with other arguments. Exiting.")
+		sys.exit(1)
+	elif get_cookie and len(sys.argv) > 2:
+		print("Cannot use --get-cookie with other arguments. Exiting.")
 		sys.exit(1)
 
 	secs = -1
@@ -1086,6 +1092,13 @@ def main():
 		elif secs < 60:
 			print("Minimum number of seconds in monitoring mode is 60. Exiting.")
 			sys.exit(1)
+	
+	if get_cookie:
+		prefetch_checks()
+		print("\nCookie generated:")
+		print(GTOKEN)
+
+		sys.exit(0)
 
 	# export results to file: -o
 	############################
