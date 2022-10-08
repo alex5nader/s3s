@@ -27,5 +27,6 @@ stdenv.mkDerivation rec {
     mkdir -p $out/bin
     cp * $out/bin
     mv $out/bin/s3s.py $out/bin/s3s
+    chmod a+x $out/bin/s3s
   '';
 }
