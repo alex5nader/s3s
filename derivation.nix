@@ -3,7 +3,7 @@
 
 stdenv.mkDerivation rec {
   pname = "s3s";
-  version = "0.1.1-dev";
+  version = "0.1.2-dev";
 
   format = "other";
   src = ./src;
