@@ -3,27 +3,29 @@ s3s 🦑
 
 **s3s** is a script that uploads _Splatoon 3_ battle data from the SplatNet 3 service (part of the Nintendo Switch Online app) to [stat.ink](https://stat.ink/), a site for recording, visualizing, and aggregating statistics from the *Splatoon* series of games.
 
-Looking to track your _Splatoon 2_ gameplay? See **[splatnet2statink](https://github.com/frozenpandaman/splatnet2statink)**. (日本語版セットアップ手順 & 中文版的安装说明)
+(ja) 日本語版セットアップ手順は[こちら](https://vanillasalt.net/2022/10/10/how-to-use-s3s/)、または[こちら](https://zenn.dev/hibikine/articles/1febb4eb03b604)。
+
+Looking to track your _Splatoon 2_ gameplay? See **[splatnet2statink](https://github.com/frozenpandaman/splatnet2statink)**.
 
 ### Features
  - [x] Full automation of SplatNet token generation via user log-in
- - [x] Ability to parse & upload complete battle stats to stat.ink
- - [x] Monitoring for new battle results in real-time & checking for missing/unuploaded battles
+ - [x] Ability to parse & upload complete battle/job stats to stat.ink ([example profile](https://stat.ink/@frozenpandaman/spl3))
+ - [x] Support for Salmon Run Next Wave
+ - [x] Monitoring for new results in real-time & checking for missing/unuploaded results
+ - [x] Flag to remove other players' names from results
+ - [x] File exporting function for use with Lean's [gear & Shell-Out Machine seed checker](https://leanny.github.io/splat3seedchecker/)
  - [x] Support for all available game languages
  - [x] Modular design to support [IkaLog3](https://github.com/hasegaw/IkaLog3) and other tools
 
 ### What's coming?
- - [ ] Support for Splatfest battles, Salmon Run jobs & Grizzco profile data (as soon as stat.ink supports it!)
- - [ ] Monitoring mode for Salmon Run
- - [ ] Post-battle scoreboard & gear screenshots
- - [ ] Flag to black out other players' names from results
+ - [ ] Support for Tricolor Turf War battles (as soon as stat.ink supports it!)
  - [ ] Downloadable, pre-packaged program executables
 
 ---
 
 ## Usage 🐙
 ```
-$ python s3s.py [-M [N]] [-r] [-nsr | -osr]
+$ python s3s.py [-M [N]] [-r] [-nsr | -osr] [--blackout] [--getseed]
 ```
 
 The `-M` flag runs the script in monitoring mode, uploading new battles/jobs as you play, checking for new results every `N` seconds; if no `N` is provided, it defaults to 300 (5 minutes).
@@ -34,7 +36,9 @@ The `-nsr` flag makes Salmon Run jobs **not** be monitored/uploaded. Use this if
 
 The `-osr` flag, conversely, makes **only** Salmon Run jobs be monitored/uploaded. Use this if you're playing at Grizzco only.
 
-<!-- The `--blackout` flag blacks out other players' names on scoreboard result images and in uploaded data. -->
+The `--blackout` flag removes other players' names from uploaded scoreboard data.
+
+The `--getseed` flag exports a file which can be uploaded to Lean's [gear & Shell-Out Machine seed checker](https://leanny.github.io/splat3seedchecker/).
 
 Arguments for advanced usage (e.g. locally exporting data to JSON files) can be viewed using `--help`.
 
@@ -87,7 +91,7 @@ Automatic token generation involves making a *secure request to a non-Nintendo s
 
 **Privacy statement:** No identifying information is ever sent to the [imink API](https://status.imink.app/). Usernames and passwords are far removed from where the API comes into play and are never readable by anyone but you, and returned hash values do not contain meaningful information about your account. It is not possible to use either sent or stored data to identify which account/user performed a request, to view any identifying information about a user, or to gain access to an account. See the [imink API Privacy Policy](https://github.com/JoneWang/imink/wiki/Privacy-Policy) and [Documentation](https://github.com/JoneWang/imink/wiki/imink-API-Documentation) for more information.
 
-Alternatively, you can use [nsotokengen](https://github.com/clovervidia/nsotokengen) with an Android-x86 virtual machine as a drop-in replacement (customizable in `config.txt`) as a way to generate tokens locally without calls to a third-party API.
+Alternatively, you can use [nsotokengen](https://github.com/clovervidia/nsotokengen) or [nxapi-znca-api](https://github.com/samuelthomas2774/nxapi-znca-api) as a drop-in replacement (customizable in `config.txt`) in order to generate tokens locally without calls to a third-party API.
 
 ### Manual
 
